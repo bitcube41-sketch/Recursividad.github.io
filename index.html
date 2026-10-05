@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recursividad</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:rgba(8,13,14,.97);color:#e6eeee;font-family:Arial,Helvetica,sans-serif;line-height:1.6}
+header{text-align:center;padding:40px 16px 10px}
+header h1{font-family:"Arial Black",Arial,sans-serif;font-size:clamp(2.2rem,7vw,4.5rem)}
+header p{color:#9fb3b3;max-width:700px;margin:10px auto}
+nav{position:sticky;top:0;background:#2b2f30;display:flex;flex-wrap:wrap;justify-content:center;z-index:5}
+nav a{color:#fff;text-decoration:none;padding:12px 14px}
+nav a:hover{background:#000}
+main{max-width:960px;margin:0 auto;padding:20px 16px 60px}
+section{margin-top:44px}
+h2{font-family:"Arial Black",Arial,sans-serif;font-size:1.8rem;margin-bottom:12px;color:#5eead4}
+h3{margin:16px 0 6px}
+p,li{margin-bottom:8px}
+ul{padding-left:22px}
+code,pre{background:#111c1e;border-radius:6px;font-family:Consolas,monospace}
+code{padding:1px 5px}
+pre{padding:12px;overflow-x:auto;margin:8px 0}
+.card{background:#162224;border:1px solid #2b3d3f;border-radius:12px;padding:16px;margin-top:12px}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto}
+th,td{border:1px solid #2b3d3f;padding:8px 10px;text-align:left}
+th{background:#2b2f30}
+.ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+button,select,input{background:#2b2f30;color:#fff;border:1px solid #4a5a5c;border-radius:6px;padding:7px 12px;font-size:1rem}
+button{cursor:pointer}button:hover{background:#000}
+input[type=number]{width:80px}
+canvas{width:100%;max-width:100%;background:#0b1415;border-radius:8px;display:block}
+#facOut div{padding:2px 0;font-family:Consolas,monospace}
+.out{margin-top:8px;color:#fbbf24;font-weight:bold}
+small,.src li{color:#9fb3b3}
+a{color:#5eead4}
+</style>
+</head>
+<body>
+<header>
+<h1>Recursividad</h1>
+<p>Una función que se resuelve llamándose a sí misma con problemas cada vez más pequeños. Explicación, complejidad y demos interactivas.</p>
+</header>
+<nav>
+<a href="#definicion">Definición</a><a href="#procedimientos">Procedimientos</a><a href="#caracteristicas">Características</a><a href="#complejidad">Complejidad</a><a href="#factorial">Factorial</a><a href="#fibonacci">Fibonacci</a><a href="#hanoi">Hanói</a><a href="#fractales">Fractales</a><a href="#fuentes">Fuentes</a>
+</nav>
+<main>
+
+<section id="definicion">
+<h2>1. Definición de recursividad</h2>
+<p>La recursividad es un método para resolver un problema cuya solución depende de soluciones a instancias más pequeñas del mismo problema [1]. Se considera una de las ideas centrales de las ciencias de la computación.</p>
+<p>Una definición recursiva siempre tiene dos partes: uno o más <b>casos base</b> (entradas con respuesta directa) y uno o más <b>casos recursivos</b> (donde la función se llama a sí misma con una entrada más simple) [1][7].</p>
+<pre>factorial(n):
+  si n == 0: devolver 1            # caso base
+  devolver n * factorial(n - 1)    # caso recursivo</pre>
+</section>
+
+<section id="procedimientos">
+<h2>2. Procedimientos recursivos y aplicaciones</h2>
+<p>Un procedimiento recursivo es aquel que se invoca a sí mismo, directa o indirectamente, hasta alcanzar el caso base; luego las llamadas "se desenrollan" devolviendo resultados [6][8]. Se usa mucho con estructuras que se definen recursivamente: una lista es vacía o un elemento seguido de otra lista [6].</p>
+<ul>
+<li><b>Matemáticas:</b> factorial, Fibonacci, potencias.</li>
+<li><b>Estructuras de datos:</b> recorrer listas y árboles (por ejemplo, árboles binarios).</li>
+<li><b>Divide y vencerás:</b> búsqueda binaria y ordenamiento por mezcla (mergesort) [5].</li>
+<li><b>Rompecabezas y gráficos:</b> Torres de Hanói y fractales.</li>
+</ul>
+</section>
+
+<section id="caracteristicas">
+<h2>3. Características de la recursividad</h2>
+<ul>
+<li><b>Caso base:</b> condición de parada; sin ella hay recursión infinita y desbordamiento de pila (<i>stack overflow</i>) [7].</li>
+<li><b>Caso recursivo:</b> la función se llama con un problema más pequeño [6].</li>
+<li><b>Progreso:</b> cada llamada debe acercarse al caso base [7].</li>
+<li><b>Autorreferencia:</b> la función aparece en su propia definición [6].</li>
+<li><b>Pila de llamadas:</b> cada llamada pendiente ocupa memoria; la profundidad determina el espacio usado [3].</li>
+</ul>
+</section>
+
+<section id="complejidad">
+<h2>4. Complejidad computacional</h2>
+<p>Para analizar un algoritmo recursivo se escribe una <b>relación de recurrencia</b> T(n) con el costo de las llamadas más el trabajo extra, y luego se resuelve [5][4]. Ejemplos de las fuentes: mergesort cumple T(n)=2T(n/2)+n y la búsqueda binaria T(N)=1+T(N/2) [5]; Hanói cumple T(n)=2T(n−1)+1, lo que da 2ⁿ−1 movimientos [2][3][5].</p>
+<table>
+<tr><th>Algoritmo</th><th>Recurrencia</th><th>Tiempo</th><th>Espacio (pila)</th></tr>
+<tr><td>Factorial</td><td>T(n)=T(n−1)+1</td><td>O(n)</td><td>O(n)</td></tr>
+<tr><td>Fibonacci ingenuo</td><td>T(n)=T(n−1)+T(n−2)+1</td><td>O(2ⁿ) (cota habitual) [8]</td><td>O(n)</td></tr>
+<tr><td>Fibonacci con memoria</td><td>cada valor se calcula una vez</td><td>O(n)</td><td>O(n)</td></tr>
+<tr><td>Torres de Hanói</td><td>T(n)=2T(n−1)+1</td><td>O(2ⁿ) [3]</td><td>O(n) [3]</td></tr>
+<tr><td>Búsqueda binaria</td><td>T(N)=1+T(N/2)</td><td>O(log n)</td><td>O(log n)</td></tr>
+</table>
+<p><small>Las filas de factorial, Fibonacci con memoria y espacio de búsqueda binaria son análisis estándar; compruébalas en un libro de texto como Cormen et al., <i>Introduction to Algorithms</i>.</small></p>
+</section>
+
+<section id="factorial">
+<h2>5. Factorial</h2>
+<p><code>n! = n × (n−1)!</code> con caso base <code>0! = 1</code> [1]. Observa cómo las llamadas bajan hasta el caso base y luego regresan multiplicando.</p>
+<div class="card">
+<div class="ctl">n = <input id="facN" type="number" min="0" max="15" value="5"><button onclick="runFac()">Calcular</button></div>
+<div id="facOut"></div>
+</div>
+</section>
+
+<section id="fibonacci">
+<h2>6. Fibonacci</h2>
+<p><code>F(n) = F(n−1) + F(n−2)</code>, con <code>F(0)=0</code> y <code>F(1)=1</code> [8]. El árbol de llamadas muestra por qué la versión ingenua es exponencial: repite los mismos cálculos.</p>
+<div class="card">
+<div class="ctl">n = <input id="fibN" type="range" min="1" max="8" value="5" oninput="runFib()"> <b id="fibLbl">5</b>
+<button onclick="memo=!memo;runFib()" id="memoBtn">Memoria: NO</button></div>
+<canvas id="fibC" width="960" height="320"></canvas>
+<div class="out" id="fibOut"></div>
+<small>Los nodos rojos son cálculos repetidos; con memoria se reutilizan y no se expanden.</small>
+</div>
+</section>
+
+<section id="hanoi">
+<h2>7. Torres de Hanói</h2>
+<p>Para mover n discos de A a C: mueve n−1 discos a B, mueve el disco mayor a C y mueve los n−1 discos de B a C [2]. Reglas: un disco a la vez y nunca uno grande sobre uno pequeño. Mínimo: 2ⁿ−1 movimientos [3].</p>
+<div class="card">
+<div class="ctl">Discos: <select id="hN" onchange="hanoiReset()"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select>
+<button onclick="hanoiStep()">Paso</button><button onclick="hanoiAuto()" id="hAuto">Auto</button><button onclick="hanoiReset()">Reiniciar</button></div>
+<canvas id="hC" width="960" height="280"></canvas>
+<div class="out" id="hOut"></div>
+</div>
+</section>
+
+<section id="fractales">
+<h2>8. Fractales</h2>
+<p>Un fractal se dibuja repitiendo la misma regla sobre versiones más pequeñas de sí mismo; la <b>profundidad</b> es el número de niveles de recursión y el caso base es dibujar la figura simple. Cambia la figura y sube la profundidad.</p>
+<div class="card">
+<div class="ctl"><select id="frT" onchange="frSet()"><option value="koch">Copo de Koch</option><option value="sier">Triángulo de Sierpinski</option><option value="tree">Árbol fractal</option></select>
+Profundidad: <input id="frD" type="range" min="0" max="5" value="3" oninput="frDraw()"> <b id="frL">3</b></div>
+<canvas id="frC" width="960" height="520"></canvas>
+<div class="out" id="frOut"></div>
+</div>
+</section>
+
+<section id="fuentes">
+<h2>Fuentes consultadas</h2>
+<ol class="src">
+<li>[1] Wikipedia, "Recursion (computer science)" – https://en.wikipedia.org/wiki/Recursion_(computer_science)</li>
+<li>[2] GeeksforGeeks, "Time Complexity Analysis | Tower Of Hanoi (Recursion)" – https://www.geeksforgeeks.org/?p=182882</li>
+<li>[3] HackerEarth, "Tower of Hanoi recursion algorithm explained" – https://www.hackerearth.com/blog/tower-hanoi-recursion-game-algorithm-explained</li>
+<li>[4] Texas A&amp;M, CSCE 222, soluciones de la tarea 4 (J. Chen) – https://people.engr.tamu.edu/j-chen3/courses/222/2024/assignment/solution4.pdf</li>
+<li>[5] UC Riverside, CS141, notas sobre relaciones de recurrencia – https://cs.ucr.edu/~neal/2004/cs260-static-mirror/wiki.pl%3FClassS04CS141%252FNotes_04_07.html</li>
+<li>[6] OpenCourser, "Recursion" – https://opencourser.com/topic/xalj1m/recursion</li>
+<li>[7] TutorChase, "Base and recursive cases" – https://tutorchase.com/answers/ib/computer-science/what-are-the-base-and-recursive-cases-in-recursion</li>
+<li>[8] Pythorn (documentación), módulo de recursión – https://pythorn.readthedocs.io/en/latest/_modules/pythorn/data_structures/recursion.html</li>
+</ol>
+</section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+/* FACTORIAL */
+function runFac(){
+  const n=Math.max(0,Math.min(15,+$('facN').value||0)),o=$('facOut');o.innerHTML='';
+  function f(k,d){
+    const pad='&nbsp;'.repeat(d*4);
+    o.innerHTML+=`<div>${pad}→ factorial(${k})</div>`;
+    let r;
+    if(k===0){r=1;o.innerHTML+=`<div>${pad}&nbsp;&nbsp;caso base: devuelve 1</div>`}
+    else r=k*f(k-1,d+1);
+    o.innerHTML+=`<div style="color:#5eead4">${pad}← factorial(${k}) = ${r}</div>`;
+    return r;
+  }
+  const r=f(n,0);o.innerHTML+=`<div class="out">${n}! = ${r}</div>`;
+}
+runFac();
+/* FIBONACCI */
+let memo=false;
+function runFib(){
+  const n=+$('fibN').value;$('fibLbl').textContent=n;$('memoBtn').textContent='Memoria: '+(memo?'SÍ':'NO');
+  const seen={},calls={c:0};let leaf=0,maxD=0;
+  function build(k,d){
+    calls.c++;maxD=Math.max(maxD,d);
+    const node={k,d,rep:false,kids:[]};
+    if(memo&&seen[k]){node.rep=true;node.x=leaf++;return node}
+    seen[k]=1;
+    if(k>1){node.kids=[build(k-1,d+1),build(k-2,d+1)];node.x=(node.kids[0].x+node.kids[1].x)/2}
+    else node.x=leaf++;
+    return node;
+  }
+  const root=build(n,0),c=$('fibC'),g=c.getContext('2d');
+  g.clearRect(0,0,c.width,c.height);
+  const sx=(c.width-40)/Math.max(1,leaf-1),sy=(c.height-50)/Math.max(1,maxD);
+  const P=nd=>[20+nd.x*sx,25+nd.d*sy];
+  const nodes=[];
+  (function walk(nd){nodes.push(nd);nd.kids.forEach(k=>{const[a,b]=P(nd),[x,y]=P(k);g.strokeStyle='#4a5a5c';g.beginPath();g.moveTo(a,b);g.lineTo(x,y);g.stroke();walk(k)})})(root);
+  const cnt={};nodes.forEach(nd=>cnt[nd.k]=(cnt[nd.k]||0)+1);
+  nodes.forEach(nd=>{const[x,y]=P(nd);g.fillStyle=nd.rep?'#2563eb':(cnt[nd.k]>1&&nd.k>1?'#dc2626':'#0f766e');
+    g.beginPath();g.arc(x,y,12,0,7);g.fill();g.fillStyle='#fff';g.font='12px Arial';g.textAlign='center';g.textBaseline='middle';g.fillText(nd.k,x,y)});
+  $('fibOut').textContent=`F(${n}) = ${fibV(n)} · llamadas realizadas: ${calls.c}`+(memo?' (con memoria; azul = valor reutilizado)':'');
+}
+function fibV(n){return n<2?n:fibV(n-1)+fibV(n-2)}
+runFib();
+/* HANOI */
+let pegs,moves,mi,timer=null;
+function hanoiReset(){
+  clearInterval(timer);timer=null;$('hAuto').textContent='Auto';
+  const n=+$('hN').value;pegs=[[],[],[]];for(let i=n;i>=1;i--)pegs[0].push(i);
+  moves=[];(function h(k,a,b,c){if(k===0)return;h(k-1,a,c,b);moves.push([a,c]);h(k-1,b,a,c)})(n,0,1,2);
+  mi=0;hDraw();
+}
+function hanoiStep(){
+  if(mi>=moves.length){clearInterval(timer);timer=null;$('hAuto').textContent='Auto';return}
+  const[a,b]=moves[mi++];pegs[b].push(pegs[a].pop());hDraw();
+}
+function hanoiAuto(){
+  if(timer){clearInterval(timer);timer=null;$('hAuto').textContent='Auto';return}
+  if(mi>=moves.length)hanoiReset();
+  $('hAuto').textContent='Pausa';timer=setInterval(hanoiStep,500);
+}
+function hDraw(){
+  const c=$('hC'),g=c.getContext('2d'),n=+$('hN').value;g.clearRect(0,0,c.width,c.height);
+  const base=c.height-30,cols=['#f87171','#fb923c','#fbbf24','#4ade80','#38bdf8','#a78bfa'];
+  pegs.forEach((p,i)=>{const cx=160+i*320;g.fillStyle='#4a5a5c';g.fillRect(cx-4,60,8,base-60);g.fillRect(cx-140,base,280,8);
+    p.forEach((d,j)=>{const w=30+d*(100/n)*1.2;g.fillStyle=cols[d-1];g.fillRect(cx-w/2,base-(j+1)*28,w,24)});
+    g.fillStyle='#e6eeee';g.font='bold 16px Arial';g.textAlign='center';g.fillText('ABC'[i],cx,c.height-8)});
+  $('hOut').textContent=`Movimiento ${mi} de ${moves.length} (2^${n} − 1 = ${(1<<n)-1})`+(mi===moves.length?' ✔ resuelto':'');
+}
+hanoiReset();
+/* FRACTALES */
+const FR={koch:5,sier:6,tree:10};
+function frSet(){const t=$('frT').value;$('frD').max=FR[t];$('frD').value=Math.min($('frD').value,FR[t]);frDraw()}
+function frDraw(){
+  const t=$('frT').value,d=+$('frD').value,c=$('frC'),g=c.getContext('2d');$('frL').textContent=d;
+  g.clearRect(0,0,c.width,c.height);let info='';
+  if(t==='koch'){
+    g.strokeStyle='#5eead4';g.lineWidth=1.2;g.beginPath();
+    const s=380,h=s*Math.sqrt(3)/2,cx=c.width/2,A=[cx-s/2,c.height/2+h/3],B=[cx+s/2,A[1]],C=[cx,A[1]-h];
+    const k=(a,b,n)=>{
+      if(n===0){g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1]);return}
+      const dx=(b[0]-a[0])/3,dy=(b[1]-a[1])/3,p=[a[0]+dx,a[1]+dy],q=[a[0]+2*dx,a[1]+2*dy];
+      const pk=[p[0]+dx/2+dy*Math.sqrt(3)/2*(-1),p[1]+dy/2+dx*Math.sqrt(3)/2];
+      const top=[(p[0]+q[0])/2+(q[1]-p[1])*Math.sqrt(3)/2,(p[1]+q[1])/2-(q[0]-p[0])*Math.sqrt(3)/2];
+      k(a,p,n-1);k(p,top,n-1);k(top,q,n-1);k(q,b,n-1);
+    };
+    k(A,C,d);k(C,B,d);k(B,A,d);g.stroke();info=`Segmentos: ${3*Math.pow(4,d)} (cada lado se reemplaza por 4 más pequeños)`;
+  }else if(t==='sier'){
+    g.fillStyle='#5eead4';
+    const tri=(a,b,cc,n)=>{
+      if(n===0){g.beginPath();g.moveTo(...a);g.lineTo(...b);g.lineTo(...cc);g.fill();return}
+      const m=(p,q)=>[(p[0]+q[0])/2,(p[1]+q[1])/2],ab=m(a,b),bc=m(b,cc),ca=m(cc,a);
+      tri(a,ab,ca,n-1);tri(ab,b,bc,n-1);tri(ca,bc,cc,n-1);
+    };
+    tri([c.width/2-250,c.height-20],[c.width/2+250,c.height-20],[c.width/2,c.height-20-433],d);
+    info=`Triángulos dibujados: ${Math.pow(3,d)}`;
+  }else{
+    g.strokeStyle='#4ade80';
+    const br=(x,y,len,ang,n)=>{
+      const x2=x+Math.cos(ang)*len,y2=y-Math.sin(ang)*len;
+      g.lineWidth=Math.max(1,n*0.8);g.beginPath();g.moveTo(x,y);g.lineTo(x2,y2);g.stroke();
+      if(n>0){br(x2,y2,len*.72,ang+.45,n-1);br(x2,y2,len*.72,ang-.45,n-1)}
+    };
+    br(c.width/2,c.height-10,110,Math.PI/2,d);info=`Ramas dibujadas: ${Math.pow(2,d+1)-1}`;
+  }
+  $('frOut').textContent=info;
+}
+frSet();
+</script>
+</body>
+</html>
